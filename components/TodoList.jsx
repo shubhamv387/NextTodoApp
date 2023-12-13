@@ -1,17 +1,22 @@
+'use client';
+
 import axios from 'axios';
 import Link from 'next/link';
 import { HiOutlineTrash, HiPencilAlt } from 'react-icons/hi';
 import { GoCheckCircleFill, GoCheckCircle } from 'react-icons/go';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 const TodoList = (props) => {
   const router = useRouter();
+
   const removeTodo = async (id) => {
     try {
-      await axios.delete(`/api/delete-todo/${id}`);
+      await axios.delete(
+        `https://next-skv-todo.vercel.app/api/todos?todoId=${id}`
+      );
       toast.success('Todo deleted successfully!');
-      router.push(router.pathname);
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -19,9 +24,11 @@ const TodoList = (props) => {
 
   const markComplete = async (id) => {
     try {
-      await axios.put(`/api/update-todo/${id}`, { completed: true });
+      await axios.put(`https://next-skv-todo.vercel.app/api/todos/${id}`, {
+        completed: true,
+      });
       toast.success('Todo completed successfully!');
-      router.reload();
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +43,7 @@ const TodoList = (props) => {
             className='w-full p-4 border border-slate-300 flex justify-between gap-5 items-center'
           >
             <div className='flex items-center justify-center gap-2'>
-              {router.pathname !== '/completed' ? (
+              {!todo.completed ? (
                 <button onClick={() => markComplete(todo.id)}>
                   <GoCheckCircle
                     className='text-white hover:text-green-600 transition'
@@ -52,7 +59,7 @@ const TodoList = (props) => {
               <button onClick={() => removeTodo(todo.id)}>
                 <HiOutlineTrash className='text-red-400' size={24} />
               </button>
-              {router.pathname !== '/completed' && (
+              {!todo.completed && (
                 <Link href={`/${todo.id}?edit=true`}>
                   <HiPencilAlt size={24} />
                 </Link>

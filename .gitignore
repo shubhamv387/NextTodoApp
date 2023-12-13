@@ -8,6 +8,7 @@
 
 .env
 .vscode
+
 # testing
 /coverage
 

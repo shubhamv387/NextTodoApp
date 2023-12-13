@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { Dialog } from '@headlessui/react';
@@ -6,7 +8,7 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 const NavBar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
-    <div className='container inset-x-0 top-0 z-10'>
+    <div className='container inset-x-0 top-0 z-10 text-white'>
       <nav
         className='flex items-center justify-between p-4 lg:p-6 lg:px-8'
         aria-label='Global'
@@ -27,7 +29,7 @@ const NavBar = () => {
         <div className='hidden lg:flex lg:gap-x-12'>
           <Link
             className='hover:text-cyan-200 duration-200 font-semibold text-xl'
-            href={'/new-todo'}
+            href={'/add-todo'}
           >
             Add Todo
           </Link>
@@ -70,7 +72,7 @@ const NavBar = () => {
             <Link
               onClick={() => setMobileMenuOpen(false)}
               className='hover:text-cyan-200 duration-200'
-              href={'/new-todo'}
+              href={'/add-todo'}
             >
               Add Todo
             </Link>

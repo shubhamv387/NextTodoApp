@@ -1,16 +1,18 @@
+'use client';
+
 import axios from 'axios';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 
 const TodoForm = (props) => {
   const router = useRouter();
-  const { edit, todoId } = router.query;
+  const params = useSearchParams();
+  const edit = params.get('edit') || false;
 
   const [todoInput, setTodoInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const todoInputRef = useRef();
-  // console.log(edit, todoId);
 
   useEffect(() => {
     if (edit) {
@@ -28,11 +30,15 @@ const TodoForm = (props) => {
     if (edit) {
       try {
         setIsLoading(true);
-        await axios.put(`/api/update-todo/${props.todo.id}`, {
-          todo: enteredTodo,
-        });
+        await axios.put(
+          `https://next-skv-todo.vercel.app/api/todos/${props.todoId}`,
+          {
+            todo: enteredTodo,
+          }
+        );
         toast.success('todo updated successfully!');
         router.push('/');
+        router.refresh();
       } catch (error) {
         console.log(error);
       } finally {
@@ -41,10 +47,11 @@ const TodoForm = (props) => {
     } else {
       try {
         setIsLoading(true);
-        await axios.post('/api/new-todo', {
+        await axios.post('https://next-skv-todo.vercel.app/api/todos', {
           todo: enteredTodo,
         });
         toast.success('todo added successfully!');
+        router.refresh();
         router.push('/');
       } catch (error) {
         console.log(error);
