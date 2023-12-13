@@ -51,8 +51,8 @@ const TodoForm = (props) => {
           todo: enteredTodo,
         });
         toast.success('todo added successfully!');
-        router.refresh();
         router.push('/');
+        router.refresh();
       } catch (error) {
         console.log(error);
       } finally {
