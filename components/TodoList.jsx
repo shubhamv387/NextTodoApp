@@ -21,7 +21,7 @@ const TodoList = (props) => {
     try {
       await axios.put(`/api/update-todo/${id}`, { completed: true });
       toast.success('Todo completed successfully!');
-      router.push('/');
+      router.reload();
     } catch (error) {
       console.log(error);
     }

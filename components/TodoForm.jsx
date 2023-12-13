@@ -28,7 +28,7 @@ const TodoForm = (props) => {
     if (edit) {
       try {
         setIsLoading(true);
-        await axios.post(`/api/update-todo/${props.todo.id}`, {
+        await axios.put(`/api/update-todo/${props.todo.id}`, {
           todo: enteredTodo,
         });
         toast.success('todo updated successfully!');
