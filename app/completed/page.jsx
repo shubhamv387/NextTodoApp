@@ -5,9 +5,7 @@ const getTodos = async () => {
   try {
     const res = await fetch(
       `https://next-skv-todo.vercel.app/api/todos?completed=true`,
-      {
-        cache: 'no-store',
-      }
+      { cache: 'no-store' }
     );
     if (!res.ok) throw new Error('Failed to fetch topic');
     const data = await res.json();

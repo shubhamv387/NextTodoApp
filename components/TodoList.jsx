@@ -22,12 +22,12 @@ const TodoList = (props) => {
     }
   };
 
-  const markComplete = async (id) => {
+  const markComplete = async (id, completed) => {
     try {
       await axios.put(`https://next-skv-todo.vercel.app/api/todos/${id}`, {
-        completed: true,
+        completed: !completed,
       });
-      toast.success('Todo completed successfully!');
+      toast.success('Todo status updated successfully!');
       router.refresh();
     } catch (error) {
       console.log(error);
@@ -43,16 +43,20 @@ const TodoList = (props) => {
             className='w-full p-4 border border-slate-300 flex justify-between gap-5 items-center'
           >
             <div className='flex items-center justify-center gap-2'>
-              {!todo.completed ? (
-                <button onClick={() => markComplete(todo.id)}>
+              <button onClick={() => markComplete(todo.id, todo.completed)}>
+                {!todo.completed ? (
                   <GoCheckCircle
-                    className='text-white hover:text-green-600 transition'
+                    className='transition text-white hover:text-green-600'
                     size={24}
                   />
-                </button>
-              ) : (
-                <GoCheckCircleFill className='text-green-600' size={24} />
-              )}
+                ) : (
+                  <GoCheckCircleFill
+                    className='transition text-green-600 hover:text-white'
+                    size={24}
+                  />
+                )}
+              </button>
+
               <h2 className='font-semibold text-lg'>{todo.todo}</h2>
             </div>
             <div className='flex gap-2'>
